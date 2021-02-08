@@ -1025,8 +1025,7 @@ function travel() {
     const numTravelers = pickNumTravelers();
     const numPairs = numTravelers / 2;
 
-    let i;
-    for (i = 0; i < numPairs; i++) {
+    for (let i = 0; i < numPairs; i++) {
         const personA = pickTraveler();
         personA.moving = true;
         personA.moveFrame = 0;
@@ -1136,7 +1135,7 @@ const clear = () => ctx.clearRect(0, 0, canvas.width, canvas.height);
 function buildWorld() {
     communities = new Array(numCommunities.value);
 
-    for (let i = 0; i < numCommunities.value; i++) {
+    for (let i = 0, len = numCommunities.value; i < len; i++) {
         const row = Math.floor(i / communityColumns);
         const col = i % communityColumns;
 
@@ -1144,7 +1143,6 @@ function buildWorld() {
         const yPos = startVertOffset + commVertSpace * row;
 
         communities[i] = new Community(communityVerticalSize * communityHorizontalSize, xPos, yPos);
-
     }
 
     graphs.push(new Graph(sickCount, 400, 20, 100, 300, 'Ziek vandaag'));
@@ -1160,8 +1158,8 @@ function buildWorld() {
         speedControl.addButton(280, 315, 20, 15, '5', speeds.SPEED5, false, false);
 
         runStop = new Cluster(200, 345, 100, 15, 'Simulatie:');
-        runStop.addButton(200, 345, 50, 15, 'Start', state.RUN, true, true);
-        runStop.addButton(250, 345, 50, 15, 'Stop', state.STOP, false, true);
+        runStop.addButton(200, 345, 50, 15, 'Start', state.RUN, false, true);
+        runStop.addButton(250, 345, 50, 15, 'Stop', state.STOP, true, true);
 
         reset = new Cluster(200, 390, 100, 15, 'Simulatie Reset');
         restoreResetButton = reset.addButton(-100, -100, 1, 1, 'Normal', flags.NORMAL, true, false);
