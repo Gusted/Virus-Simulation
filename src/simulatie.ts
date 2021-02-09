@@ -150,8 +150,7 @@ const colSpacePix = 0;
 const rowSpacePix = 0;
 
 const canvasName = 'myCanvas';
-// @ts-ignore
-const canvas: HTMLCanvasElement = document.getElementById(canvasName);
+const canvas = document.getElementById(canvasName) as HTMLCanvasElement;
 const ctx = canvas.getContext('2d');
 ctx.imageSmoothingEnabled = false;
 const canvasLeft = canvas.offsetLeft;
@@ -191,7 +190,7 @@ let runStop: Cluster;
 let reset: Cluster;
 
 let started = false;
-let restoreResetButton: { clickHandler: (arg0: number, arg1: number) => void; };
+let restoreResetButton: Button;
 
 const colors = {
     BACKGROUND:	'#000',
@@ -317,7 +316,7 @@ class Community {
         this.xPos = xPos;
         this.yPos = yPos;
         this.size = size;
-        this.people = new Array(size);
+        this.people = Array.from({length: size});
         for (let i = 0; i < size; i++) {
             const position = computeScreenPosition(this, i);
             this.people[i] = new Person(position[0], position[1], this, i);
@@ -771,7 +770,7 @@ function resetSimulation() {
 function simulationTick() {
 
     if (reset.value == flags.RESTART) {
-        restoreResetButton.clickHandler(0, 0);
+        restoreResetButton.clickHandler();
         resetSimulation();
     }
 
@@ -795,7 +794,7 @@ function simulationTick() {
     }
 
 
-    // Simulation stuff
+    // Simulation stuff new Array(size);
     if (tickNumber % speedControl.value == 0) {
 
         let i: number;
@@ -848,7 +847,7 @@ function setGraphics() {
     communityRows = Math.ceil(numCommunities.value / smallestSquare);
 }
 
-function canvasClickHandler(event: { pageX: number; pageY: number; }) {
+function canvasClickHandler(event: MouseEvent) {
     const x = event.pageX - canvasLeft;
     const y = event.pageY - canvasTop;
     for (let i = 0, len = clickers.length; i < len; i++) {
@@ -862,7 +861,7 @@ function canvasClickHandler(event: { pageX: number; pageY: number; }) {
     }
 }
 
-function canvasMouseoverHandler(event: { pageX: number; pageY: number; }) {
+function canvasMouseoverHandler(event: MouseEvent) {
     const x = event.pageX - canvasLeft;
     const y = event.pageY - canvasTop;
     for (let i = 0, len = hovers.length; i < len; i++) {
@@ -882,7 +881,7 @@ const countSick = () => communities.map((community) => community.countSick()).re
 
 const countSickToday = () => communities.map((community) => community.countSickToday()).reduce((a, b) => a + b);
 
-const countTotalCases = () => communities.map((community) => community.countTotalCases()).reduce((a, b) => a + b)
+const countTotalCases = () => communities.map((community) => community.countTotalCases()).reduce((a, b) => a + b);
 
 function forcePositions() {
     for (let i = 0, len = communities.length; i < len; i++) {
@@ -1017,7 +1016,7 @@ function drawWorld() {
 const clear = () => ctx.clearRect(0, 0, canvas.width, canvas.height);
 
 function buildWorld() {
-    communities = new Array(numCommunities.value);
+    communities = Array.from({length: numCommunities.value});
 
     for (let i = 0, len = numCommunities.value; i < len; i++) {
         const row = Math.floor(i / communityColumns);
@@ -1029,9 +1028,7 @@ function buildWorld() {
         communities[i] = new Community(communityVerticalSize * communityHorizontalSize, xPos, yPos);
     }
 
-    graphs.push(new Graph(sickCount, 400, 20, 100, 300, 'Ziek vandaag'));
-    graphs.push(new Graph(sickTodayCount, 400, 165, 50, 300, 'Nieuwe zieken per dag'));
-    graphs.push(new Graph(totalCases, 400, 270, 100, 300, 'Totaal aantal zieken'));
+    graphs.push(new Graph(sickCount, 400, 20, 100, 300, 'Ziek vandaag'), new Graph(sickTodayCount, 400, 165, 50, 300, 'Nieuwe zieken per dag'), new Graph(totalCases, 400, 270, 100, 300, 'Totaal aantal zieken'));
 
     if (!speedControl) {
         speedControl = new Cluster(200, 315, 100, 15, 'Snelheid:');
