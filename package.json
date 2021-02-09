@@ -1,0 +1,19 @@
+{
+  "name": "virus_simulator",
+  "version": "1.0.0",
+  "description": "Iets ofzo",
+  "main": "simulatie.js",
+  "repository": "https://github.com/Gusted/Virus-Simulation",
+  "author": "Gusted <williamzijl7@hotmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "node src/build.js",
+    "release": "node src/build.js --release",
+    "serve": "http-server"
+  },
+  "devDependencies": {
+    "esbuild": "0.8.43",
+    "http-server": "0.12.3",
+    "typescript": "4.1.3"
+  }
+}

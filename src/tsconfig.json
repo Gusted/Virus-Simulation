@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+        "target": "es2019",
+        "baseUrl": ".",
+        "module": "ESNext",
+        "moduleResolution": "node",
+        "lib": [
+            "ES2015",
+            "ES2017",
+            "ES2019",
+            "ES2020",
+            "ESNext",
+            "dom"
+        ],
+        "allowJs": true,
+        "downlevelIteration": true,
+        "noEmit": true,
+        "incremental": true
+    },
+    "exclude": [
+        "node_modules"
+    ]
+}
