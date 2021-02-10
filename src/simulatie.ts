@@ -149,9 +149,8 @@ const glyphHeight = 14;
 const colSpacePix = 0;
 const rowSpacePix = 0;
 
-const canvasName = 'myCanvas';
-const canvas = document.getElementById(canvasName) as HTMLCanvasElement;
-const ctx = canvas.getContext('2d');
+const canvas = document.getElementById('myCanvas') as HTMLCanvasElement;
+const ctx = canvas.getContext('2d', {alpha: false});
 ctx.imageSmoothingEnabled = false;
 const canvasLeft = canvas.offsetLeft;
 const canvasTop = canvas.offsetTop;
@@ -260,16 +259,15 @@ class Person {
         this.animate();
         switch (this.state) {
             case health.HEALTHY:
-                ctx.fillStyle = colors.HEALTHY;
+                ctx.drawImage(piHealthyCanvas, this.xPos, this.yPos - glyphHeight, glyphWidth, 14);
                 break;
             case health.SICK:
-                ctx.fillStyle = colors.SICK;
+                ctx.drawImage(piSickCanvas, this.xPos, this.yPos - glyphHeight, glyphWidth, 14);
                 break;
             case health.RECOVERED:
-                ctx.fillStyle = colors.RECOVERED;
+                ctx.drawImage(piRecoveredCanvas, this.xPos, this.yPos - glyphHeight, glyphWidth, 14);
                 break;
         }
-        ctx.fillText('π', this.xPos, this.yPos, glyphWidth - colSpacePix * 2);
 
     }
 
@@ -733,8 +731,45 @@ class Cluster{
     }
 }
 
+let piHealthyCanvas: HTMLCanvasElement;
+let piHealthyCtx: CanvasRenderingContext2D;
+let piSickCanvas: HTMLCanvasElement;
+let piSickCtx: CanvasRenderingContext2D;
+let piRecoveredCanvas: HTMLCanvasElement;
+let piRecoveredCtx: CanvasRenderingContext2D;
+
+
+function initalizeCanvas() {
+
+    piHealthyCanvas = document.createElement('canvas');
+    piHealthyCtx = piHealthyCanvas.getContext('2d');
+    piHealthyCanvas.width = 14;
+    piHealthyCanvas.height = 14;
+
+    piSickCanvas = piHealthyCanvas.cloneNode() as HTMLCanvasElement;
+    piSickCtx = piSickCanvas.getContext('2d');
+    piRecoveredCanvas = piHealthyCanvas.cloneNode() as HTMLCanvasElement;
+    piRecoveredCtx = piRecoveredCanvas.getContext('2d');
+
+    piHealthyCtx.imageSmoothingEnabled = false;
+    piHealthyCtx.font = fontString;
+    piHealthyCtx.fillStyle = colors.HEALTHY;
+    piHealthyCtx.fillText('π', 0, glyphHeight);
+
+    piSickCtx.imageSmoothingEnabled = false;
+    piSickCtx.font = fontString;
+    piSickCtx.fillStyle = colors.SICK;
+    piSickCtx.fillText('π', 0, glyphHeight);
+
+    piRecoveredCtx.imageSmoothingEnabled = false;
+    piRecoveredCtx.font = fontString;
+    piRecoveredCtx.fillStyle = colors.RECOVERED;
+    piRecoveredCtx.fillText('π', 0, glyphHeight);
+}
 
 function main() {
+
+    initalizeCanvas();
 
     setGraphics();
 
